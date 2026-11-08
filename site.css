@@ -1,0 +1,380 @@
+@font-face {
+  font-family: 'Figtree';
+  src: url('assets/fontes/figtree-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('assets/fontes/figtree-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('assets/fontes/figtree-800.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+:root {
+  --aluminio: #d3d7dc;
+  --aluminio-escuro: #b9bfc6;
+  --painel: #f6f7f8;
+  --grafite: #20252b;
+  --grafite-suave: #59626c;
+  --caneta: #1d3fbb;
+  --caneta-fundo: #e6ebfa;
+  --erro: #b3261e;
+  --linha: #8e97a1;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--aluminio);
+  color: var(--grafite);
+  font-family: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: minmax(380px, 460px) 1fr;
+  height: 100vh;
+}
+
+/* Formulario */
+
+.painel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--painel);
+  overflow-y: auto;
+}
+
+.painel-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 0;
+}
+.painel-topo img { display: block; mix-blend-mode: multiply; }
+
+.painel h1 {
+  margin: 20px 28px 0;
+  font-size: 27px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+form { flex: 1; padding: 0 28px 12px; }
+
+fieldset {
+  min-width: 0;
+  margin: 28px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
+}
+.abertura { margin-top: 6px; }
+
+.campo { display: block; margin-top: 14px; min-width: 0; }
+.campo > span, .grupo-t {
+  display: block;
+  color: var(--grafite-suave);
+  font-size: 13px;
+}
+
+.campo input, .campo textarea {
+  display: block;
+  width: 100%;
+  padding: 5px 0 4px;
+  border: 0;
+  border-bottom: 1.5px solid var(--linha);
+  border-radius: 0;
+  background: transparent;
+  color: var(--caneta);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+}
+.campo textarea { resize: vertical; line-height: 1.35; }
+.campo input:hover, .campo textarea:hover { border-bottom-color: var(--grafite); }
+.campo input:focus, .campo textarea:focus {
+  border-bottom-color: var(--caneta);
+  box-shadow: 0 1.5px 0 var(--caneta);
+}
+.campo.com-erro input, .campo.com-erro textarea { border-bottom-color: var(--erro); }
+
+.aviso { display: block; color: var(--erro); font-size: 13px; }
+.aviso:empty { display: none; }
+
+.nota { margin: 8px 0 0; color: var(--grafite-suave); font-size: 13px; }
+small.nota { display: block; margin-top: 5px; }
+.nota.erro { color: var(--erro); }
+.campo input[readonly] { color: var(--grafite-suave); border-bottom-style: dashed; cursor: default; }
+
+.opcoes { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.opcao { position: relative; cursor: pointer; }
+.opcao input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.opcao span {
+  display: block;
+  padding: 6px 13px;
+  border: 1.5px solid var(--linha);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.opcao:hover span { border-color: var(--grafite); }
+.opcao input:checked + span {
+  border-color: var(--caneta);
+  background: var(--caneta-fundo);
+  color: var(--caneta);
+}
+.opcao input:focus-visible + span { outline: 2px solid var(--caneta); outline-offset: 2px; }
+
+/* Perguntas de sim ou nao */
+
+.pergunta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 12px;
+  margin-top: 18px;
+}
+.pergunta-t { font-size: 15px; }
+.campo-nota { grid-column: 1 / -1; margin-top: 4px; }
+
+/* Padrao de desbloqueio dentro do celular */
+
+.padrao {
+  display: grid;
+  grid-template-columns: 138px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.celular {
+  position: relative;
+  padding: 30px 9px 26px;
+  border: 2px solid var(--grafite);
+  border-radius: 22px;
+  background: #fff;
+}
+.celular::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 38px;
+  height: 9px;
+  margin-left: -19px;
+  border-radius: 5px;
+  background: var(--grafite);
+}
+
+.pontos {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 1;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#padrao-linhas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+#padrao-linhas line {
+  stroke: var(--caneta);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.ponto {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: none;
+}
+.ponto::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--grafite);
+  z-index: -1;
+}
+.ponto[aria-pressed="true"]::before {
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  background: var(--caneta);
+}
+.ponto:focus-visible { outline: 2px solid var(--caneta); outline-offset: -3px; border-radius: 50%; }
+
+.padrao-texto { min-width: 0; }
+.padrao-texto .nota { margin-top: 4px; }
+.padrao-texto .botao-texto { margin-top: 6px; }
+
+.acoes {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 28px 16px;
+  border-top: 1px solid var(--aluminio-escuro);
+  background: var(--painel);
+}
+
+.pendencias { margin: 0 0 10px; font-size: 13px; color: var(--erro); }
+.pendencias.pronto { color: var(--grafite-suave); }
+
+.acoes-botoes { display: flex; align-items: center; gap: 16px; }
+
+.botao {
+  flex: 1;
+  min-height: 46px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--caneta);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.botao:hover { background: #17329a; }
+.botao:focus-visible, .botao-texto:focus-visible {
+  outline: 2px solid var(--caneta);
+  outline-offset: 2px;
+}
+
+.botao-texto {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--grafite-suave);
+  font: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.botao-texto:hover { color: var(--grafite); }
+
+.ver-folha { display: none; }
+
+/* Mesa com a previa */
+
+.mesa {
+  min-width: 0;
+  overflow-y: auto;
+  padding: 18px 32px 40px;
+}
+
+.mesa-nota {
+  margin: 0 auto 14px;
+  max-width: 794px;
+  color: var(--grafite);
+  font-size: 14px;
+}
+
+#documento { max-width: 794px; margin: 0 auto; }
+
+.folha {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(32, 37, 43, 0.35), 0 14px 30px -14px rgba(32, 37, 43, 0.5);
+}
+.folha text {
+  font-family: 'Figtree', Arial, sans-serif;
+  font-kerning: none;
+  font-variant-ligatures: none;
+  white-space: pre;
+}
+.folha .medio { font-weight: 500; }
+.folha .negrito { font-weight: 700; }
+.folha .extra { font-weight: 800; }
+.folha text.v { fill: var(--caneta); }
+.folha line.v, .folha path.v { stroke: var(--caneta); }
+
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  .app { display: block; height: auto; }
+  .painel { overflow: visible; }
+  .painel-topo, .acoes { padding-left: 16px; padding-right: 16px; }
+  .painel h1 { margin-left: 16px; margin-right: 16px; }
+  form { padding-left: 16px; padding-right: 16px; }
+  .ver-folha { display: block; }
+  .mesa { overflow: visible; padding: 18px 16px 32px; }
+}
+
+@media (max-width: 420px) {
+  .grade { grid-template-columns: 1fr; }
+}
+
+/* Se alguem usar o imprimir do navegador: so a folha, sem o azul */
+
+@page { size: A4; margin: 0; }
+
+@media print {
+  html, body { height: auto; background: #fff; }
+  .painel, .mesa-nota { display: none; }
+  .app, .mesa { display: block; height: auto; padding: 0; overflow: visible; }
+  #documento { max-width: none; }
+  .folha { box-shadow: none; }
+  .folha text.v { fill: #20252b; }
+  .folha line.v, .folha path.v { stroke: #20252b; }
+}
