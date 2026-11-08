@@ -102,6 +102,21 @@
             <small class="nota" id="valor-nota">Sem preencher, sai em branco para escrever à caneta.</small>
           </label>
         </fieldset>
+
+        <fieldset>
+          <legend>Assinaturas</legend>
+          <div class="campo">
+            <span>Assinatura do responsável (opcional)</span>
+            <canvas id="assinatura-cliente" class="assinatura" aria-label="Assinatura do responsável"></canvas>
+            <button type="button" class="botao-texto" data-limpar="assinatura-cliente">Limpar</button>
+          </div>
+          <div class="campo">
+            <span>Assinatura do técnico (opcional)</span>
+            <canvas id="assinatura-tecnico" class="assinatura" aria-label="Assinatura do técnico"></canvas>
+            <button type="button" class="botao-texto" data-limpar="assinatura-tecnico">Limpar</button>
+          </div>
+          <p class="nota">Sem assinar na tela, as linhas saem em branco para assinar à caneta depois de imprimir.</p>
+        </fieldset>
       </form>
 
       <footer class="acoes">
@@ -122,6 +137,8 @@
   <script src="metricas.js"></script>
   <script src="os.js"></script>
   <script src="pdf.js"></script>
+  <script src="registros.js"></script>
+  <script src="assinatura.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

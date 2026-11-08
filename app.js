@@ -7,6 +7,11 @@
   const $ = (id) => document.getElementById(id);
   const form = $('form');
   const documento = $('documento');
+  /* Assinaturas na tela: o traço vai para o PDF e para o registro salvo. */
+  const pads = {
+    cliente: Assinatura.iniciar('assinatura-cliente', () => atualizar()),
+    tecnico: Assinatura.iniciar('assinatura-tecnico', () => atualizar()),
+  };
   const API_NUMERO = 'api/os/numero';
   let numeroAtual = '';
 
@@ -255,6 +260,8 @@
       servicos: $('servicos').value.trim(),
       observacoes: $('observacoes').value.trim(),
       valorTexto: texto('valor'),
+      assinaturaCliente: pads.cliente.dataUrl(),
+      assinaturaTecnico: pads.tecnico.dataUrl(),
       arquivo: nomeArquivo(numero, texto('nome'), $('data').value),
     };
   }
@@ -353,6 +360,9 @@
       const borda = op.borda ? `stroke="${op.borda}" stroke-width="${n(op.espessura)}"` : '';
       return `<path d="${op.d}" fill="${op.fundo || 'none'}" ${borda} ${op.valor ? 'class="v"' : ''}/>`;
     }
+    if (op.tipo === 'assinatura') {
+      return `<image href="${op.dados}" x="${n(op.x)}" y="${n(op.y)}" width="${n(op.largura)}" height="${n(op.altura)}" preserveAspectRatio="xMidYMid meet"/>`;
+    }
     return `<image href="assets/logo-os.png" x="${n(op.x)}" y="${n(op.y)}" width="${n(op.largura)}" height="${n(op.altura)}"/>`;
   }
 
@@ -418,10 +428,13 @@
     mostrarNumero(numero);
     atualizar();
     const d = lerDados();
+    botao.textContent = 'Salvando...';
+    const salvo = await Registros.enviar('os', d);
     botao.textContent = 'Gerando PDF...';
     try {
       PdfOs.baixar(await PdfOs.montar(folha, d.arquivo), d.arquivo);
-      pendencias.textContent = `PDF gerado: ${d.arquivo}.pdf`;
+      pendencias.textContent = `PDF gerado: ${d.arquivo}.pdf. ` +
+        (salvo ? 'OS salva.' : 'Sem conexão: a OS será salva quando a internet voltar.');
     } catch (erro) {
       pendencias.classList.remove('pronto');
       pendencias.textContent = `O PDF não foi gerado, mas o número ${formatarNumero(String(numero))} já foi reservado e não será usado de novo. Tente gerar outra vez.`;
@@ -438,6 +451,8 @@
 
   function limpar() {
     form.reset();
+    pads.cliente.limpar();
+    pads.tecnico.limpar();
     padrao = [];
     Object.keys(respostas).forEach((nome) => delete respostas[nome]);
     preencherInicio();
@@ -482,6 +497,7 @@
   montarPontos();
   preencherInicio();
   atualizar();
-  /* Adianta o carregamento para o botao responder na hora; se falhar, tenta de novo ao gerar. */
-  PdfOs.preparar().catch(() => {});
+  /* As bibliotecas do PDF só são baixadas quando o botão Gerar PDF é usado. */
+  /* Envia de novo o que ficou sem conexão em outra vez. */
+  Registros.reenviarPendentes();
 })();

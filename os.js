@@ -360,6 +360,9 @@
     /* A data da assinatura fica sempre em branco, para nao antedatar. */
     barrasData(ops, { x: ESQUERDA, y, l: assina - ESQUERDA, a });
     rotulo(ops, 'Assinatura do responsável', assina, y);
+    if (d.assinaturaCliente) {
+      ops.push({ tipo: 'assinatura', x: pt(assina + 2), y: pt(y + 4.5), largura: pt(valor - assina - 4), altura: pt(a - 6), dados: d.assinaturaCliente });
+    }
   }
 
   function linhaCorte(ops) {
@@ -425,6 +428,9 @@
     rotulo(ops, 'Data', data, y);
     rotulo(ops, 'Serviço', ESQUERDA, y + a);
     rotulo(ops, 'Assinatura do técnico', assina, y + a + b);
+    if (d.assinaturaTecnico) {
+      ops.push({ tipo: 'assinatura', x: pt(assina + 2), y: pt(y + a + b + 4.5), largura: pt(DIREITA - assina - 4), altura: pt(b - 6), dados: d.assinaturaTecnico });
+    }
 
     valorCelula(ops, d.modelo, { x: ESQUERDA, y, l: cor - ESQUERDA, a }, 'modelo', estouros);
     valorCelula(ops, d.cor, { x: cor, y, l: data - cor, a }, 'cor', estouros);

@@ -1,0 +1,22 @@
+[build]
+  publish = "."
+
+# O contador de número da OS fica no backend lz-registros.
+# O app chama /api/os/numero; o Netlify repassa a chamada sem mudar a URL que o navegador vê.
+[[redirects]]
+  from = "/api/os/numero"
+  to = "https://lz-registros.netlify.app/.netlify/functions/numero-os"
+  status = 200
+  force = true
+
+# Bibliotecas e recursos do PDF mudam raramente: o navegador guarda por 30 dias
+# e não baixa de novo a cada visita (economiza banda do plano).
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
